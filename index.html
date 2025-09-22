@@ -3,17 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vinyl Premium - Stampa Vinili di Lusso</title>
+    <title>Wax Encounters - Stampa Vinili di Lusso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
         
         * {
             font-family: 'Inter', sans-serif;
-        }
-        
-        .serif {
-            font-family: 'Playfair Display', serif;
         }
         
         .vinyl-record {
@@ -108,9 +104,9 @@
         .section-fade {
             opacity: 0;
             transform: translateY(40px);
-            transition: all 0.8s ease;
+            transition: opacity 1.2s cubic-bezier(0.165, 0.84, 0.44, 1), transform 1.2s cubic-bezier(0.165, 0.84, 0.44, 1);
         }
-        
+
         .section-fade.visible {
             opacity: 1;
             transform: translateY(0);
@@ -128,30 +124,88 @@
         }
         
         .luxury-card {
-            background: linear-gradient(135deg, rgba(20, 20, 20, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
+            background: linear-gradient(135deg, rgba(9, 10, 8, 0.9) 0%, rgba(0, 0, 0, 0.95) 100%);
             backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(255, 255, 255, 0.05) inset;
+            border: 1px solid rgba(199, 122, 180, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(199, 122, 180, 0.05) inset;
         }
+
+        .shimmer-effect {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .shimmer-effect::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+            transition: left 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .shimmer-effect:hover::after {
+            left: 150%;
+        }
+        
+        .main-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200vh;
+            background: 
+                linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+                url('images/background image.jpeg');
+            background-size: cover;
+            background-position: center top;
+            background-repeat: no-repeat;
+            z-index: -1;
+            transform: translateY(0);
+            transition: transform 0.1s ease-out;
+        }
+
+        .text-overlay {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(199, 122, 180, 0.2);
+        }
+
+        @keyframes aurora {
+            from {
+                transform: rotate(0deg) scale(1);
+            }
+            to {
+                transform: rotate(360deg) scale(1.5);
+            }
+        }
+
     </style>
 </head>
-<body class="bg-black text-white overflow-x-hidden">
+<body class="text-white overflow-x-hidden">
+    <div class="main-background"></div>
     <!-- Navigation -->
     <nav class="fixed top-0 w-full z-50 glass-nav transition-all duration-300" id="navbar">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <h1 class="text-xl font-bold serif">VINYL PREMIUM</h1>
+                        <h1 class="text-xl font-bold tracking-wider">WAX ENCOUNTERS</h1>
                     </div>
                 </div>
                 <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-8">
                         <a href="#hero" class="hover:text-gray-300 transition-colors duration-200">Home</a>
-                        <a href="#print" class="hover:text-gray-300 transition-colors duration-200">Stampa il Tuo Vinile</a>
-                        <a href="#collection" class="hover:text-gray-300 transition-colors duration-200">Collezione</a>
-                        <a href="#process" class="hover:text-gray-300 transition-colors duration-200">Come Funziona</a>
-                        <a href="#contact" class="hover:text-gray-300 transition-colors duration-200">Contatti</a>
+                        <a href="about.html" class="hover:text-gray-300 transition-colors duration-200">About Us</a>
+                        <a href="album.html" class="hover:text-gray-300 transition-colors duration-200">Albums</a>
+                        <a href="#print" class="hover:text-gray-300 transition-colors duration-200">Print Your Vinyl</a>
+                        <a href="#dashboard" class="hover:text-gray-300 transition-colors duration-200">Dashboard</a>
+                        <a href="#collection" class="hover:text-gray-300 transition-colors duration-200">Collection</a>
+                        <a href="#contact" class="hover:text-gray-300 transition-colors duration-200">Contact</a>
                     </div>
                 </div>
                 <div class="md:hidden">
@@ -167,34 +221,28 @@
 
     <!-- Hero Section -->
     <section id="hero" class="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-black via-gray-900 to-black"></div>
         
-        <!-- Vinyl Record -->
-        <div class="vinyl-container fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10" id="vinylRecord">
-            <div class="vinyl-record w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
-                <div class="vinyl-grooves"></div>
-            </div>
-        </div>
         
         <!-- Hero Content -->
         <div class="relative z-20 text-center px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
-            <div class="hero-text" id="heroText">
-                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold mb-6 tracking-tight serif">
-                    Stampare Vinili Non È Mai Stato
-                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">
-                        Così Semplice
+            <div class="hero-text text-overlay" id="heroText">
+                <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight">
+                    We press vinyl records through crowdfunding or direct printing.
+                    <span class="block text-lg sm:text-xl lg:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">
+                        
                     </span>
                 </h1>
                 <p class="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-8 leading-relaxed max-w-3xl mx-auto font-light">
-                    Sei un artista emergente e sogni di vedere il tuo disco stampato su vinile? Con la nostra piattaforma puoi trasformare i tuoi fan in produttori del tuo successo.
+                    Artists release without risk.Fans make it possible.
+                    
                 </p>
                 <div class="space-y-4 sm:space-y-0 sm:space-x-6 sm:flex sm:justify-center">
                     <button class="premium-button w-full sm:w-auto px-10 py-4 text-black font-semibold rounded-full text-lg">
-                        Inizia Ora
+                        Print your vinyl
                     </button>
-                    <button class="w-full sm:w-auto px-10 py-4 glass-card rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300 text-lg">
-                        Scopri di Più
-                    </button>
+                    <a href="album.html" class="w-full sm:w-auto px-10 py-4 glass-card rounded-full hover:bg-white hover:bg-opacity-10 transition-all duration-300 text-lg inline-block text-center">
+                        Support a record
+                    </a>
                 </div>
             </div>
         </div>
@@ -208,22 +256,269 @@
         </div>
     </section>
 
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 relative">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="section-fade">
+                <div class="luxury-card rounded-3xl p-8 lg:p-12 shimmer-effect">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                        <!-- Left Side - Text Content -->
+                        <div class="text-center lg:text-left">
+                            <div class="mb-8">
+                                <h2 class="text-4xl sm:text-5xl font-extrabold mb-6 tracking-tight">
+                                    Send us your ideas
+                                    <span class="block text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-400">
+                                        Fill the form to describe your project
+                                    </span>
+                                </h2>
+                                <p class="text-xl text-gray-300 mb-6 leading-relaxed">
+                                    Transform your music into a work of art. Your project starts here.
+                                </p>
+                                <div class="flex flex-wrap gap-4 justify-center lg:justify-start">
+                                    <div class="flex items-center space-x-2 text-gray-300">
+                                        <div class="w-2 h-2 bg-gradient-to-r from-pink-400 to-purple-400 rounded-full"></div>
+                                        <span class="text-sm">Design personalizzato</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2 text-gray-300">
+                                        <div class="w-2 h-2 bg-gradient-to-r from-green-400 to-blue-400 rounded-full"></div>
+                                        <span class="text-sm">Qualità premium</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2 text-gray-300">
+                                        <div class="w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-400 rounded-full"></div>
+                                        <span class="text-sm">Consegna rapida</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Right Side - Form -->
+                        <div class="glass-card rounded-2xl p-8">
+                        <h3 class="text-2xl font-bold mb-6 text-center">Request Quote</h3>
+                        <form class="space-y-6">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                <div>
+                                    <input type="text" placeholder="Artist Name" class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 text-base">
+                                </div>
+                                <div>
+                                    <input type="email" placeholder="Email" class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 text-base">
+                                </div>
+                            </div>
+                            <div>
+                                <select class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 text-base text-gray-300">
+                                    <option class="text-black" value="">Project Type</option>
+                                    <option class="text-black" value="album">Full Album</option>
+                                    <option class="text-black" value="ep">EP</option>
+                                    <option class="text-black" value="single">Single</option>
+                                    <option class="text-black" value="compilation">Compilation</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 text-base text-gray-300">
+                                    <option class="text-black" value="">Cover Style</option>
+                                    <option class="text-black" value="gatefold">Gatefold Cover</option>
+                                    <option class="text-black" value="single-sleeve">Single Sleeve</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 text-base text-gray-300">
+                                    <option class="text-black" value="">Vinyl Style</option>
+                                    <option class="text-black" value="black">Standard Black</option>
+                                    <option class="text-black" value="colored">Colored Vinyl</option>
+                                    <option class="text-black" value="marbled">Marbled</option>
+                                    <option class="text-black" value="transparent">Transparent</option>
+                                    <option class="text-black" value="splatter">Splatter</option>
+                                </select>
+                            </div>
+                            <div>
+                                <select class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 text-base text-gray-300">
+                                    <option class="text-black" value="">Quantity</option>
+                                    <option class="text-black" value="100">100 copies</option>
+                                    <option class="text-black" value="200">200 copies</option>
+                                    <option class="text-black" value="300">300 copies</option>
+                                    <option class="text-black" value="1000">1000 copies</option>
+                                </select>
+                            </div>
+                            <div>
+                                <textarea rows="4" placeholder="Describe your project..." class="w-full px-4 py-3 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-pink-400 focus:bg-opacity-15 transition-all duration-200 resize-none text-base"></textarea>
+                            </div>
+                            <button type="submit" class="premium-button w-full px-8 py-4 text-black font-semibold rounded-xl text-lg hover:scale-105 transition-transform duration-200">
+                                Send Request
+                            </button>
+                        </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Us Section -->
+    <section id="about" class="min-h-screen py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="text-center mb-16 section-fade">
+                <div class="text-overlay">
+                    <h2 class="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight">About Us</h2>
+                    <p class="text-xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                        At Wax Encounters, we believe that every artist deserves the chance to press their music on vinyl—without the barrier of overwhelming upfront costs. Our platform was built to empower musicians, connect them with their fans, and keep the culture of vinyl alive.
+                    </p>
+                </div>
+            </div>
+
+            <!-- How It Works -->
+            <div class="luxury-card rounded-3xl p-8 lg:p-12 mb-16 section-fade">
+                <h3 class="text-3xl sm:text-4xl font-bold mb-8 text-center">How It Works</h3>
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                    <div>
+                        <p class="text-xl text-gray-300 mb-6 leading-relaxed">
+                            We use a pre-order system inspired by crowdfunding. Artists can showcase their album with a digital mockup of the vinyl, and fans who are excited about the release can pre-order their copy. Once the funding target is reached, we begin production and ship the finished records directly to supporters.
+                        </p>
+                        <p class="text-lg text-gray-400 mb-6 leading-relaxed">
+                            If the target is not reached within a set number of months, fans will receive a full refund—ensuring that nobody loses money in the process.
+                        </p>
+                        <p class="text-lg text-gray-300 leading-relaxed">
+                            This way, artists can bring their music to life without financial risk, and fans become an essential part of the journey.
+                        </p>
+                    </div>
+                    <div class="glass-card rounded-2xl p-8 shimmer-effect">
+                        <div class="aspect-square bg-gradient-to-br from-gray-700 via-gray-800 to-black rounded-xl relative overflow-hidden">
+                            <div class="absolute inset-0 luxury-gradient"></div>
+                            <div class="absolute inset-4 border-2 border-white border-opacity-20 rounded-lg"></div>
+                            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+                                <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mb-4 mx-auto flex items-center justify-center">
+                                    <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                    </svg>
+                                </div>
+                                <p class="text-gray-300">Pre-order System</p>
+                            </div>
+                         </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- More Ways We Support Artists -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-16">
+                <div class="luxury-card rounded-2xl p-8 section-fade shimmer-effect">
+                    <h4 class="text-2xl font-bold mb-4">Standard Vinyl Printing</h4>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        For artists ready to invest in their own release, we provide professional printing at competitive prices. Our price list starts at a minimum of 100 copies, and artists can contact us directly for details.
+                    </p>
+                </div>
+                
+                <div class="luxury-card rounded-2xl p-8 section-fade shimmer-effect">
+                    <h4 class="text-2xl font-bold mb-4">Personalized One-Off Vinyl Pressing</h4>
+                    <p class="text-gray-300 mb-4 leading-relaxed">
+                        Want to create a unique gift or a one-of-a-kind keepsake? We also offer single vinyl pressing for 50€ per record. Simply provide the tracks, and we'll craft a custom vinyl made just for you.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Our Mission -->
+            <div class="luxury-card rounded-3xl p-8 lg:p-12 section-fade">
+                <h3 class="text-3xl sm:text-4xl font-bold mb-8 text-center">Our Mission</h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold">Empower Artists</h4>
+                        <p class="text-gray-400">by removing financial barriers to vinyl production.</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold">Engage Fans</h4>
+                        <p class="text-gray-400">by letting them play an active role in bringing records to life.</p>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto flex items-center justify-center mb-4">
+                            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                            </svg>
+                        </div>
+                        <h4 class="text-xl font-semibold">Preserve Vinyl Culture</h4>
+                        <p class="text-gray-400">while making it more accessible to both musicians and listeners.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Closing Statement -->
+            <div class="text-center mt-16 section-fade">
+                <div class="luxury-card rounded-3xl p-8 lg:p-12 max-w-4xl mx-auto">
+                    <p class="text-xl text-gray-300 leading-relaxed">
+                        At Wax Encounters, we're more than just a vinyl pressing service—we're building a bridge between artists and fans, one record at a time. Together, we can keep the magic of music spinning on vinyl for years to come.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-fade">
+                <div class="text-overlay">
+                    <h2 class="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight">How It Works</h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                        A simple three-step process that connects artists with their fans and brings music to life on vinyl.
+                    </p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="luxury-card rounded-2xl p-8 section-fade shimmer-effect text-center">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-2xl font-bold text-white">1</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Artists Upload Their Album</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Musicians share their project with us, complete with a digital mockup of the vinyl so fans can see what it will look like.
+                    </p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="luxury-card rounded-2xl p-8 section-fade shimmer-effect text-center" style="transition-delay: 200ms;">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-2xl font-bold text-white">2</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">Fans Pre-Order the Vinyl</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Supporters place pre-orders to help reach the funding target. If the goal is met, the vinyl goes into production. If not reached within the set time, fans get a full refund—no risk, no loss.
+                    </p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="luxury-card rounded-2xl p-8 section-fade shimmer-effect text-center" style="transition-delay: 400ms;">
+                    <div class="w-16 h-16 bg-white bg-opacity-20 rounded-full mx-auto mb-6 flex items-center justify-center">
+                        <span class="text-2xl font-bold text-white">3</span>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4">We Press & Deliver</h3>
+                    <p class="text-gray-300 leading-relaxed">
+                        Once funded, we handle the printing and ship the finished records directly to the fans who made it possible. Artists release their music without upfront costs, and fans get to spin the vinyl they helped bring to life.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
     <!-- Print Your Vinyl Section -->
     <section id="print" class="min-h-screen py-20 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-20 section-fade">
-                <h2 class="text-4xl sm:text-6xl font-bold mb-8 serif">Chi Stampa i Vinili?</h2>
-                <h3 class="text-2xl sm:text-3xl text-gray-300 mb-6">Noi. E lo facciamo con stile.</h3>
-                <p class="text-xl text-gray-400 max-w-4xl mx-auto leading-relaxed">
-                    I vinili non vengono spediti a un laboratorio qualunque: li stampiamo direttamente noi, con un'attenzione maniacale al design, ai materiali e all'esperienza d'ascolto.
-                </p>
-            </div>
 
             <!-- Vinyl Design Service -->
             <div class="luxury-card rounded-3xl p-8 lg:p-12 mb-16 section-fade">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <h3 class="text-3xl sm:text-4xl font-bold mb-6 serif">Vinyl Design</h3>
+                        <h3 class="text-3xl sm:text-4xl font-bold mb-6">Vinyl Design</h3>
                         <p class="text-xl text-gray-300 mb-8 leading-relaxed">
                             Offriamo un servizio completo pensato per trasformare il tuo disco in un oggetto d'arte.
                         </p>
@@ -263,7 +558,7 @@
                         </div>
                     </div>
                     
-                    <div class="glass-card rounded-2xl p-8">
+                    <div class="glass-card rounded-2xl p-8 shimmer-effect">
                         <div class="aspect-square bg-gradient-to-br from-gray-700 via-gray-800 to-black rounded-xl relative overflow-hidden">
                             <div class="absolute inset-0 luxury-gradient"></div>
                             <div class="absolute inset-4 border-2 border-white border-opacity-20 rounded-lg"></div>
@@ -280,16 +575,58 @@
                 </div>
             </div>
 
-            <!-- 100% Production Management -->
-            <div class="text-center section-fade">
-                <div class="luxury-card rounded-3xl p-8 lg:p-12 max-w-4xl mx-auto">
-                    <h3 class="text-3xl sm:text-4xl font-bold mb-6 serif">100% della Produzione? Lo Gestiamo Noi</h3>
-                    <p class="text-xl text-gray-300 mb-8 leading-relaxed">
-                        Se vuoi concentrarti solo sulla musica, puoi lasciarci il 100% del lavoro creativo e produttivo. Tu ci mandi le tracce e le tue idee (anche confuse), noi ti restituiamo il disco finito, stampato, confezionato e spedito.
+        </div>
+    </section>
+    
+    <!-- Artist Dashboard Section -->
+    <section id="dashboard" class="py-20 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16 section-fade">
+                <div class="text-overlay">
+                    <h2 class="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight">Your Artist Dashboard</h2>
+                    <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+                        Monitor your campaign in real-time with a simple and powerful dashboard. Transform data into decisions.
                     </p>
-                    <p class="text-2xl font-semibold text-white serif">
-                        Senza pensieri. Senza sbatti.
-                    </p>
+                </div>
+            </div>
+            
+            <div class="luxury-card rounded-3xl p-8 lg:p-12 section-fade shimmer-effect">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+                    <div class="lg:col-span-2">
+                        <h3 class="text-2xl font-bold mb-6">"Ether" Campaign</h3>
+                        <div class="mb-8">
+                            <div class="flex justify-between items-center mb-2 text-gray-300 font-medium">
+                                <span>Pre-order Progress</span>
+                                <span>78 / 100</span>
+                            </div>
+                            <div class="w-full bg-white bg-opacity-10 rounded-full h-4 overflow-hidden">
+                                <div class="bg-gradient-to-r from-gray-200 to-white h-4 rounded-full" style="width: 78%;"></div>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-center">
+                            <div>
+                                <div class="text-4xl font-bold">12,456</div>
+                                <div class="text-gray-400 mt-1">Unique Visitors</div>
+                            </div>
+                            <div>
+                                <div class="text-4xl font-bold">482</div>
+                                <div class="text-gray-400 mt-1">Initial Pre-orders</div>
+                            </div>
+                            <div>
+                                <div class="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-blue-500">3.87%</div>
+                                <div class="text-gray-400 mt-1">Conversion Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="lg:col-span-1 glass-card rounded-2xl p-6">
+                        <h4 class="font-semibold mb-4 text-center">Latest Pre-orders</h4>
+                        <ul class="space-y-4 text-sm">
+                            <li class="flex items-center justify-between"><span>user_alpha</span> <span class="text-gray-400">2 min ago</span></li>
+                            <li class="flex items-center justify-between"><span>beatmaster</span> <span class="text-gray-400">15 min ago</span></li>
+                            <li class="flex items-center justify-between"><span>soundwave</span> <span class="text-gray-400">1 hour ago</span></li>
+                            <li class="flex items-center justify-between"><span>dj_groove</span> <span class="text-gray-400">3 hours ago</span></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
@@ -297,17 +634,22 @@
 
     <!-- Collection Section -->
     <section id="collection" class="min-h-screen py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl sm:text-6xl font-bold mb-6 serif">Collezione Premium</h2>
+                <div class="text-overlay">
+                <h2 class="text-4xl sm:text-6xl font-extrabold mb-6 tracking-tight">Collezione Premium</h2>
                 <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
                     Esempi delle nostre creazioni. Ogni vinile è un'opera d'arte unica, curata nei minimi dettagli dai nostri designer ed esperti del settore musicale.
                 </p>
+                </div>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="luxury-card rounded-2xl p-6 section-fade hover:scale-105 transition-transform duration-500">
-                    <div class="aspect-square bg-gradient-to-br from-red-900 via-red-800 to-black rounded-xl mb-6 relative overflow-hidden">
+                <div class="luxury-card rounded-2xl p-6 section-fade shimmer-effect hover:scale-105 transition-transform duration-500" style="transition-delay: 100ms;">
+                    <div class="aspect-square rounded-xl mb-6 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Rock Indipendente" 
+                             class="w-full h-full object-cover">
                         <div class="absolute inset-0 luxury-gradient"></div>
                         <div class="absolute bottom-4 left-4 right-4">
                             <div class="glass-card rounded-lg p-3">
@@ -323,8 +665,11 @@
                     </div>
                 </div>
                 
-                <div class="luxury-card rounded-2xl p-6 section-fade hover:scale-105 transition-transform duration-500">
-                    <div class="aspect-square bg-gradient-to-br from-blue-900 via-purple-800 to-black rounded-xl mb-6 relative overflow-hidden">
+                <div class="luxury-card rounded-2xl p-6 section-fade shimmer-effect hover:scale-105 transition-transform duration-500" style="transition-delay: 200ms;">
+                    <div class="aspect-square rounded-xl mb-6 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Jazz Contemporaneo" 
+                             class="w-full h-full object-cover">
                         <div class="absolute inset-0 luxury-gradient"></div>
                         <div class="absolute bottom-4 left-4 right-4">
                             <div class="glass-card rounded-lg p-3">
@@ -340,8 +685,11 @@
                     </div>
                 </div>
                 
-                <div class="luxury-card rounded-2xl p-6 section-fade hover:scale-105 transition-transform duration-500">
-                    <div class="aspect-square bg-gradient-to-br from-yellow-600 via-orange-700 to-black rounded-xl mb-6 relative overflow-hidden">
+                <div class="luxury-card rounded-2xl p-6 section-fade shimmer-effect hover:scale-105 transition-transform duration-500" style="transition-delay: 300ms;">
+                    <div class="aspect-square rounded-xl mb-6 relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" 
+                             alt="Elettronica" 
+                             class="w-full h-full object-cover">
                         <div class="absolute inset-0 luxury-gradient"></div>
                         <div class="absolute bottom-4 left-4 right-4">
                             <div class="glass-card rounded-lg p-3">
@@ -360,107 +708,31 @@
         </div>
     </section>
 
-    <!-- Process Section -->
-    <section id="process" class="min-h-screen py-20 relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-16 section-fade">
-                <h2 class="text-4xl sm:text-6xl font-bold mb-6 serif">Come Funziona</h2>
-                <p class="text-xl text-gray-300 max-w-3xl mx-auto">
-                    Il processo è semplice e trasparente. Dalla creazione della campagna alla spedizione del vinile.
-                </p>
-            </div>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div class="luxury-card rounded-2xl p-8 section-fade text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-white to-gray-300 rounded-full mx-auto mb-6 flex items-center justify-center text-black font-bold text-xl">1</div>
-                    <h3 class="text-2xl font-semibold mb-4 serif">Crea la Campagna</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        Carica il tuo album, scegli la copertina e ottieni un link da condividere con i tuoi fan attraverso Instagram, TikTok, newsletter.
-                    </p>
-                </div>
-                
-                <div class="luxury-card rounded-2xl p-8 section-fade text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-white to-gray-300 rounded-full mx-auto mb-6 flex items-center justify-center text-black font-bold text-xl">2</div>
-                    <h3 class="text-2xl font-semibold mb-4 serif">Ricevi Preordini</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        I tuoi fan possono preordinare il vinile senza pagare subito. Una dashboard ti mostra in tempo reale l'andamento della campagna.
-                    </p>
-                </div>
-                
-                <div class="luxury-card rounded-2xl p-8 section-fade text-center">
-                    <div class="w-16 h-16 bg-gradient-to-br from-white to-gray-300 rounded-full mx-auto mb-6 flex items-center justify-center text-black font-bold text-xl">3</div>
-                    <h3 class="text-2xl font-semibold mb-4 serif">Stampa e Spedizione</h3>
-                    <p class="text-gray-400 leading-relaxed">
-                        Al raggiungimento di 100 preordini confermati, il vinile viene stampato e spedito - a te o direttamente ai fan.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
+    <!-- Process Section (Removed as requested by implication of new structure) -->
 
-    <!-- Contact Section -->
-    <section id="contact" class="min-h-screen py-20 relative">
-        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <div class="section-fade">
-                <h2 class="text-4xl sm:text-6xl font-bold mb-6 serif">Inizia il Tuo Progetto</h2>
-                <p class="text-xl text-gray-300 mb-12 max-w-2xl mx-auto">
-                    Trasforma la tua musica in un oggetto d'arte. Contattaci per iniziare il tuo progetto vinile.
-                </p>
-                
-                <div class="luxury-card rounded-3xl p-8 max-w-lg mx-auto">
-                    <form class="space-y-6">
-                        <div>
-                            <input type="text" placeholder="Nome Artista" class="w-full px-6 py-4 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-white focus:bg-opacity-15 transition-all duration-200 text-lg">
-                        </div>
-                        <div>
-                            <input type="email" placeholder="Email" class="w-full px-6 py-4 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-white focus:bg-opacity-15 transition-all duration-200 text-lg">
-                        </div>
-                        <div>
-                            <select class="w-full px-6 py-4 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-white focus:bg-opacity-15 transition-all duration-200 text-lg">
-                                <option value="">Tipo di Progetto</option>
-                                <option value="album">Album Completo</option>
-                                <option value="ep">EP</option>
-                                <option value="single">Singolo</option>
-                                <option value="compilation">Compilation</option>
-                            </select>
-                        </div>
-                        <div>
-                            <textarea rows="4" placeholder="Descrivi il tuo progetto..." class="w-full px-6 py-4 bg-white bg-opacity-10 rounded-xl border border-white border-opacity-20 focus:outline-none focus:border-white focus:bg-opacity-15 transition-all duration-200 resize-none text-lg"></textarea>
-                        </div>
-                        <button type="submit" class="premium-button w-full px-8 py-4 text-black font-semibold rounded-xl text-lg">
-                            Richiedi Preventivo
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <script>
-        // Vinyl rotation and scroll animations
-        let vinylRecord = document.getElementById('vinylRecord');
+        // Scroll animations
         let heroText = document.getElementById('heroText');
         let scrollIndicator = document.getElementById('scrollIndicator');
         let navbar = document.getElementById('navbar');
+        let mainBackground = document.querySelector('.main-background');
         
-        let rotation = 0;
         let lastScrollY = 0;
         
-        function updateVinylAnimation() {
+        function updateScrollAnimation() {
             const scrollY = window.scrollY;
             const windowHeight = window.innerHeight;
-            const scrollProgress = Math.min(scrollY / windowHeight, 1);
+            const documentHeight = document.documentElement.scrollHeight;
+            const scrollProgress = Math.min(scrollY / (documentHeight - windowHeight), 1);
             
-            // Rotate vinyl based on scroll
-            rotation += (scrollY - lastScrollY) * 0.5;
+            // Calculate parallax offset based on total page scroll
+            // The image should move from top to bottom as you scroll through the entire page
+            // Image height is 200vh, so we need to move it by 100vh to show the bottom
+            const maxImageMovement = windowHeight; // Move by 100vh to reach the bottom
+            const parallaxOffset = scrollProgress * maxImageMovement;
+            mainBackground.style.transform = `translateY(${-parallaxOffset}px)`;
             
-            // Scale and move vinyl out of view
-            const scale = Math.max(1 - scrollProgress * 0.8, 0.2);
-            const translateY = scrollProgress * -200;
-            const opacity = Math.max(1 - scrollProgress * 1.5, 0);
-            
-            vinylRecord.style.transform = `translate(-50%, -50%) translateY(${translateY}px) scale(${scale}) rotate(${rotation}deg)`;
-            vinylRecord.style.opacity = opacity;
             
             // Hero text animation
             if (scrollProgress < 0.3) {
@@ -511,7 +783,7 @@
         }, 300);
         
         // Scroll event listener
-        window.addEventListener('scroll', updateVinylAnimation);
+        window.addEventListener('scroll', updateScrollAnimation);
         
         // Smooth scrolling for navigation links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -528,7 +800,7 @@
         });
         
         // Initial setup
-        updateVinylAnimation();
+        updateScrollAnimation();
     </script>
 </body>
 </html> 
